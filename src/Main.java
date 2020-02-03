@@ -16,7 +16,7 @@ public class Main {
         List<Worker<Integer>> workers = new ArrayList<>();
         List<Future<List<Integer>>> results = new ArrayList<>();
 
-        SortAlgorithm sorter = new BubbleSortAlgorithm();
+        SortAlgorithm sorter = new SelectionSortAlgorithm();
 
         for (int i = 0; i < cores; i++){
             workers.add(new Worker<>(barrier, sorter, l));
