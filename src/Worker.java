@@ -1,3 +1,5 @@
+import Sort.SortAlgorithm;
+
 import java.util.List;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.Callable;
