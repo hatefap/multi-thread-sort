@@ -17,7 +17,7 @@ public class SortManager<E extends Comparable<E>> {
     }
 
 
-    public List<List<E>> sort(){
+    public List<E> sort(){
         List<List<E>> sortedSlices = new ArrayList<>();
         List<List<E>> slices = chunkList(inputList, numberOfSlice);
         CyclicBarrier barrier = new CyclicBarrier(numberOfSlice);
@@ -41,7 +41,7 @@ public class SortManager<E extends Comparable<E>> {
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-        return sortedSlices;
+        return mergeList(sortedSlices);
     }
 
 
