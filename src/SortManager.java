@@ -10,17 +10,21 @@ public class SortManager<E extends Comparable<E>> {
     private List<E> inputList;
     private int numberOfSlice;
     private SortAlgorithm sorter;
+    private int chuckSize;
 
     public SortManager(List<E> inputList, SortAlgorithm sorter, int numberOfSlice) {
         this.inputList = inputList;
         this.sorter = sorter;
+        this.chuckSize = inputList.size() / numberOfSlice + 1;
         this.numberOfSlice = numberOfSlice;
     }
 
 
     public List<E> sort(){
         List<List<E>> sortedSlices = new ArrayList<>();
-        List<List<E>> slices = chunkList(inputList, numberOfSlice);
+        System.out.println(numberOfSlice);
+        List<List<E>> slices = chunkList(inputList, chuckSize);
+        System.out.println(slices.size());
         CyclicBarrier barrier = new CyclicBarrier(numberOfSlice);
         ExecutorService service = Executors.newFixedThreadPool(numberOfSlice);
 
@@ -43,6 +47,7 @@ public class SortManager<E extends Comparable<E>> {
             e.printStackTrace();
         }
 
+        service.shutdown();
         return mergeList(sortedSlices);
     }
 
@@ -66,12 +71,14 @@ public class SortManager<E extends Comparable<E>> {
         for(int index = 0; index < sortedLists.size(); index++){
             minHeap.add(new HeapNode(sortedLists.get(index).get(0), index, 0));
         }
+
         for(int i = 0; i < inputList.size(); i++){
             HeapNode node = minHeap.poll();
             if(node != null){
                 finalResult.add(node.value);
-                if (node.pointer < sortedLists.get(node.index).size() - 1){
-                    minHeap.add(new HeapNode(sortedLists.get(node.index).get(++node.pointer), node.index, ++node.pointer));
+                if (node.pointer  < sortedLists.get(node.index).size() - 1){
+                    node.pointer += 1;
+                    minHeap.add(new HeapNode(sortedLists.get(node.index).get(node.pointer), node.index, node.pointer));
                 }
 
             }
