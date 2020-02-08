@@ -12,7 +12,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-        System.out.println(5 / 3);
         int cores = Runtime.getRuntime().availableProcessors();
         Integer[] sample = new Integer[100000];
         Random r = new Random();

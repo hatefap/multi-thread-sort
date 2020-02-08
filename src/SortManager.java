@@ -22,7 +22,6 @@ public class SortManager<E extends Comparable<E>> {
 
     public List<E> sort(){
         List<List<E>> sortedSlices = new ArrayList<>();
-        System.out.println(numberOfSlice);
         List<List<E>> slices = chunkList(inputList, chuckSize);
         System.out.println(slices.size());
         CyclicBarrier barrier = new CyclicBarrier(numberOfSlice);
@@ -46,7 +45,6 @@ public class SortManager<E extends Comparable<E>> {
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-
         service.shutdown();
         return mergeList(sortedSlices);
     }
@@ -60,12 +58,10 @@ public class SortManager<E extends Comparable<E>> {
             this.value = e;
             this.index = index;
             this.pointer = pointer;
-
         }
     }
 
     private List<E> mergeList(List<List<E>> sortedLists){
-        System.out.println(sortedLists);
         List<E> finalResult = new ArrayList<>(inputList.size());
         PriorityQueue<HeapNode> minHeap = new PriorityQueue<>(sortedLists.size(), (HeapNode a, HeapNode b) -> (a.value.compareTo(b.value)));
         for(int index = 0; index < sortedLists.size(); index++){
@@ -80,7 +76,6 @@ public class SortManager<E extends Comparable<E>> {
                     node.pointer += 1;
                     minHeap.add(new HeapNode(sortedLists.get(node.index).get(node.pointer), node.index, node.pointer));
                 }
-
             }
         }
         return finalResult;
