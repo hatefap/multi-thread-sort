@@ -13,14 +13,14 @@ public class Main {
     public static void main(String[] args) {
 
         int cores = Runtime.getRuntime().availableProcessors();
-        Integer[] sample = new Integer[100000];
+        Integer[] sample = new Integer[1000];
         Random r = new Random();
         for (int i = 0; i < sample.length; i++){
-            sample[i] = r.nextInt(10000000);
+            sample[i] = r.nextInt(1000);
         }
         List<Integer> l = Arrays.asList(sample);
 
-        SortManager<Integer> sm = new SortManager<>(Arrays.asList(sample), new SelectionSortAlgorithm(), 3);
+        SortManager<Integer> sm = new SortManager<>(Arrays.asList(sample), new InsertionSortAlgorithm(), 3);
         System.out.println(sm.sort());
 
     }

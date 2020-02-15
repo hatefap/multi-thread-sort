@@ -8,27 +8,25 @@ import java.util.concurrent.*;
 public class SortManager<E extends Comparable<E>> {
 
     private List<E> inputList;
-    private int numberOfSlice;
+    private int numberOfSlices;
     private SortAlgorithm sorter;
     private int chuckSize;
 
-    public SortManager(List<E> inputList, SortAlgorithm sorter, int numberOfSlice) {
+    public SortManager(List<E> inputList, SortAlgorithm sorter, int numberOfSlices) {
         this.inputList = inputList;
         this.sorter = sorter;
-        this.chuckSize = inputList.size() / numberOfSlice + 1;
-        this.numberOfSlice = numberOfSlice;
+        this.chuckSize = inputList.size() / numberOfSlices + 1;
+        this.numberOfSlices = numberOfSlices;
     }
 
 
     public List<E> sort(){
         List<List<E>> sortedSlices = new ArrayList<>();
         List<List<E>> slices = chunkList(inputList, chuckSize);
-        System.out.println(slices.size());
-        CyclicBarrier barrier = new CyclicBarrier(numberOfSlice);
-        ExecutorService service = Executors.newFixedThreadPool(numberOfSlice);
-
-        List<Worker<E>> workers = new ArrayList<>(numberOfSlice);
-        List<Future<List<E>>> results = new ArrayList<>(numberOfSlice);
+        CyclicBarrier barrier = new CyclicBarrier(numberOfSlices);
+        List<Worker<E>> workers = new ArrayList<>(numberOfSlices);
+        List<Future<List<E>>> results = new ArrayList<>(numberOfSlices);
+        ExecutorService service = Executors.newFixedThreadPool(numberOfSlices);
 
         for (List<E> e : slices){
             workers.add(new Worker<>(barrier, sorter, e));
